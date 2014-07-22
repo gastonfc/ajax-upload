@@ -17,7 +17,7 @@ module AjaxUpload
         define_method(method) do
           ajax_upload_get_file
           resp = send old
-          ajax_upload_build_response resp
+          ajax_upload_build_response resp, method
         end
 
         include AjaxUpload::Receiver::LocalInstanceMethods
@@ -33,7 +33,7 @@ module AjaxUpload
         @uploaded_file = upload['file']
       end
 
-      def ajax_upload_build_response(result)
+      def ajax_upload_build_response(result, method)
         if result.is_a? ActiveRecord::Base
           if result.valid?
             render json: { success: true }
@@ -44,7 +44,7 @@ module AjaxUpload
         elsif result.is_a? Hash
           render json: result
         else
-          render text: 'Error: Unknown response type (ajax_upload_gem)'
+          render json: { success: false, errors: "Unknown return type (#{result.class}) for method '#{method}' (ajax_upload)" }
         end
       end
     end

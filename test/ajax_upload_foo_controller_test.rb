@@ -4,7 +4,6 @@ require 'json'
 class AjaxUploadFooControllerTest < ActionController::TestCase
   tests FooController
 
-
   # Private methods tests
 
   def test_instance_has_a_get_file_method
@@ -51,5 +50,21 @@ class AjaxUploadFooControllerTest < ActionController::TestCase
     assert_equal 1, result['errors'].scan("is invalid").length
   end
 
+  def test_when_the_controller_returns_a_unexpected_value_it_should_return_success_false
+    post 'wrong_return_type'
+    result = JSON.parse(response.body)
+    assert_equal result['success'], false
+  end
 
+  def test_when_the_controller_returns_a_unexpected_value_the_error_should_include_the_method_name
+    post 'wrong_return_type'
+    result = JSON.parse(response.body)
+    assert result['errors'].include? "'wrong_return_type'"
+  end
+
+  def test_when_the_controller_returns_a_unexpected_value_the_error_should_include_the_values_class
+    post 'wrong_return_type'
+    result = JSON.parse(response.body)
+    assert result['errors'].include? "NilClass"
+  end
 end

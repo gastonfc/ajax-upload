@@ -1,5 +1,6 @@
 class FooController < ApplicationController
   attr_accessor :uploaded_file
+  skip_before_filter :verify_authenticity_token
 
   def custom_response
     { success: false, errors: "Sample" }
@@ -18,4 +19,9 @@ class FooController < ApplicationController
   end
 
   ajax_upload_receiver :do_nothing
+
+  def wrong_return_type
+    nil
+  end
+  ajax_upload_receiver :wrong_return_type
 end
