@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ajax_upload (0.0.1)
+    ajax_upload (0.8)
       rails (~> 4.1.4)
 
 GEM
