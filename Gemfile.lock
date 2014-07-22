@@ -104,4 +104,5 @@ PLATFORMS
 DEPENDENCIES
   activerecord-jdbcsqlite3-adapter
   ajax_upload!
+  json
   paperclip

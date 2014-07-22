@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   post 'do-nothing' => 'foo#do_nothing'
   post 'custom-response' => 'foo#custom_response'
+  post 'model-response' => 'foo#model_response'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

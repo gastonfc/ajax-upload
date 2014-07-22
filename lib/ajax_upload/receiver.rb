@@ -1,3 +1,4 @@
+
 module AjaxUpload
   module Receiver
     extend ActiveSupport::Concern
@@ -7,10 +8,6 @@ module AjaxUpload
     end
 
     module ClassMethods
-
-      def preba
-        puts "hoola"
-      end
 
       def ajax_upload_receiver(method)
         old = "ajax_upload_old_#{method}".to_s
@@ -37,13 +34,19 @@ module AjaxUpload
       end
 
       def ajax_upload_build_response(result)
-        if result.is_a? Hash
+        if result.is_a? ActiveRecord::Base
+          if result.valid?
+            render json: { success: true }
+          else
+            errors = AjaxUpload::Utils::get_activerecord_errors(result)
+            render json: { success: false, errors: errors.join(". ") }
+          end
+        elsif result.is_a? Hash
           render json: result
         else
-          render text: 'Response'
+          render text: 'Error: Unknown response type (ajax_upload_gem)'
         end
       end
-
     end
   end
 end
