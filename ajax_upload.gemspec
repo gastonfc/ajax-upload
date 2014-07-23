@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 4.1.4"
-  s.add_dependency "railties", "~> 3.1"
+  s.add_dependency "railties"
 
   s.add_development_dependency "activerecord-jdbcsqlite3-adapter"
 end
