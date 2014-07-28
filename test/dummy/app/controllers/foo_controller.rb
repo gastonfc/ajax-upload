@@ -2,6 +2,10 @@ class FooController < ApplicationController
   attr_accessor :uploaded_file
   skip_before_filter :verify_authenticity_token
 
+  def index
+
+  end
+
   def custom_response
     { success: false, errors: "Sample" }
   end

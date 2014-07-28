@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 
+  root 'foo#index'
+
   post 'do-nothing' => 'foo#do_nothing'
   post 'custom-response' => 'foo#custom_response'
   post 'model-response' => 'foo#model_response'

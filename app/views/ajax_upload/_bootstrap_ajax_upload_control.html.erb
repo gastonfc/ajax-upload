@@ -1,0 +1,24 @@
+<div <%= ajax_upload_attributes(bootstrap_ajax_upload_control) %>>
+  <div class="ajax-upload-drophere">
+    <span class="glyphicon glyphicon-upload"></span>
+    Drop your files here
+  </div>
+  <div class="ajax-upload-form">
+    <div class="button-container">
+      <button type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-folder-open"></span> Select files
+      </button>
+      <%= file_field 'upload', 'file', :multiple => true, :class => "file-field btn" %>
+    </div>
+    <ul class="ajax-upload-list list-group">
+      <li class="panel-body list-group-item">
+        <span class="glyphicon glyphicon-remove remove"></span>
+        <span class="name"></span> <span class="size"></span>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
