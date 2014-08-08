@@ -15,7 +15,8 @@ module AjaxUploadHelper
     attribute_list(options)
   end
 
-  def ajax_upload_control(options=nil)
+  def ajax_upload_control(action, options={})
+    options = options.merge action: action
     render partial: 'ajax_upload/bootstrap_ajax_upload_control', object: options
   end
 
