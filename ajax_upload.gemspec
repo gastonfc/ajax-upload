@@ -19,6 +19,8 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 4.1.4"
   s.add_dependency "railties"
+  s.add_dependency "jquery-rails"
+  s.add_dependency "json"
 
   s.add_development_dependency "activerecord-jdbcsqlite3-adapter"
 end

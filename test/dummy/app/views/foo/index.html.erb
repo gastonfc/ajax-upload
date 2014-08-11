@@ -1,6 +1,22 @@
 <h1>Index</h1>
 
-<%= ajax_upload_control do_nothing_path(@user), id: "custom75",
+<%= ajax_upload_control do_nothing_path(@user), id: "myctrl",
                                                 class: "mystyle",
                                                 on_upload_callback: "file_uploaded",
                                                 valid_content_type_pattern: "image" %>
+
+<script type="text/javascript">
+  function file_uploaded(result) {
+    console.log("file_uploaded", "this=", this, "data=", result);
+    $(this).css("border","2px solid red");
+
+      // Example
+      if (result.success) {
+        console.log("Upload success from " + this);
+      }
+  }
+
+  $("#myctrl").on("ajax-upload", function (event, result) {
+    console.log("ajax-upload-event", "this=", this, "data=", result);
+  });
+</script>

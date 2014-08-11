@@ -1,7 +1,9 @@
 PATH
   remote: .
   specs:
-    ajax_upload (0.8.3)
+    ajax_upload (0.11)
+      jquery-rails
+      json
       rails (~> 4.1.4)
       railties
 
@@ -49,6 +51,9 @@ GEM
     hike (1.2.3)
     i18n (0.6.11)
     jdbc-sqlite3 (3.7.2.1)
+    jquery-rails (3.1.1)
+      railties (>= 3.0, < 5.0)
+      thor (>= 0.14, < 2.0)
     json (1.8.1-java)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -56,7 +61,7 @@ GEM
     mime-types (1.25.1)
     minitest (5.4.0)
     multi_json (1.10.1)
-    paperclip (4.1.1)
+    paperclip (4.2.0)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
@@ -96,7 +101,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (1.2.1)
+    tzinfo (1.2.2)
       thread_safe (~> 0.1)
 
 PLATFORMS
@@ -105,5 +110,6 @@ PLATFORMS
 DEPENDENCIES
   activerecord-jdbcsqlite3-adapter
   ajax_upload!
+  jquery-rails
   json
   paperclip

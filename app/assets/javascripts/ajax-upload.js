@@ -48,9 +48,15 @@
     }
   }
 
-  function stateChangeCallback(component, filecont) {
+  function onUpload(component, result) {
     var upload_callback = component.attr("data-on-upload-callback"),
         upload_callback_func = window[upload_callback] || function () { };
+
+    upload_callback_func.apply(component.get(0), result ? [result] : undefined);
+    component.trigger("ajax-upload", result);
+  }
+
+  function stateChangeCallback(component, filecont) {
 
     return function () {
       var xhr = this;
@@ -59,14 +65,14 @@
           if (isResponseJSON(xhr)) {
             var result = JSON.parse(xhr.responseText);
             setFileContainterStatus(filecont, result.success, result.error);
-            upload_callback_func.apply(component, [result]);
+            onUpload(component, result);
           } else {
             setFileContainterStatus(filecont, false, "Server error: unexpected response");
-            upload_callback_func.apply(component);
+            onUpload(component);
           }
         } else {
           setFileContainterStatus(filecont, false, "Server error: " + xhr.status);
-          upload_callback_func.apply(component);
+          onUpload(component);
         }
       }
     }
