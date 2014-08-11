@@ -1,3 +1,120 @@
-= AjaxUpload
+= Ajax Upload
 
-This project rocks and uses MIT-LICENSE.
+A Javascript control to upload files using ajax.
+This gems is suitable when you need to upload more than one file on the same view.
+
+* The files can be choosed using a <em>"Select files"</em> button or by drag and drop.
+* It display a progress bar for each file while they are being uploading.
+* When a upload finishes, the progress bar changes its color depending if the transference was succedded or not.
+* On failure, it can display a error message on the progress bar.
+* You can specify some validations to do before the upload begins:
+  * Minimum file size
+  * Maximum file size
+  * Valid content type
+* A javascript function can be specified as a callback to get notifications when a file upload finished.
+* It was developed with Paperclip in mind but it isn't actually required.
+
+== Installing 
+
+It is distributed as gem. Include it in your Gemfile:
+
+  gem 'ajax_upload', git: 'git@github.com:gastonfc/ajax-upload.git'
+
+Add this line to your +app/assets/javascripts/application.js+:
+
+  //= require ajax-upload
+
+and this one to +app/assets/stylesheets/application.css+, before the last <tt>*/</tt>:
+
+  *= require ajax-uplaod
+  
+== Quick Start
+
+You need a method in your controller to handle the file uploaded.
+The uploaded file is accessible in <tt>params ['file']</tt>.
+
+your method must return one of this type of values:
+
+* A +Hash+ containing at least the +:success+ key with a boolean value, indicating if the operation was succeeded or not. In case of error you can add a string, with the :error key, which will be shown in the progress bar. You can add more values to this hash, the entire object is converted to JSON and can be accessed from the javascript callback funtion.
+
+* An <tt>ActiveRecord::Base</tt> descendant. The gem will build the JSON response automatically. It will check if the last save was valid and if it failed, a error string will be built from the +ActiveRecord+ errors list.
+
+Finally, you must call the macro-like class method +ajax_upload_receiver+ with the method name as a symbol.
+
+  class PicturesController < ApplicationController
+    ...
+
+    def add_file
+      uploaded_file = params['file']
+
+      picture = Pictures.new(file: uploaded_file)
+      picture.save
+
+      # Return the ActiveRecord::Base object, so the gem will generate a suitable response
+      picture
+    end
+
+    ajax_upload_receiver :add_file
+
+  end
+
+== Including the control in your view
+
+There is a helper method *ajax_upload_control* which accepts two arguments: the path for the action that handles the file upload and a options hash.
+
+  <%= ajax_upload_control add_file_picture_path(@picture), id: "myupload", on_upload_callback: "file_uploaded" %>
+
+options:
+
+id::      html element's id for the control container.
+class::   html element's aditional css classes. Note that the resulting html will contain the *ajax-upload-ctrl* class anyway.
+on\_upload\_callback:: javascript function to be called when a upload finished. You have to specify the function name as a string.
+max\_size::  Maximum allowed file size in bytes.
+min\_size::  Minimum allowed file size in bytes.
+valid\_content\_type\_pattern::   A string with a regular expression used to validate the selected files' content-type. This regex must use the javascript's syntax.
+
+Those validations are performed when the files are selected, the invalid files are not uploaded.
+
+== Javascript callback function
+
+You can declare the callback function in the +on_upload_callback+ parameter or attach it to the +ajax-upload+ jQuery event:
+
+=== Using the on_upload_callback parameter
+
+  <%= ajax_upload_control add_file_picture_path(@picture), on_upload_callback: "file_uploaded" %>
+
+  <script type="text/javascript">
+    function file_uploaded(result) {
+      // Your callback code here.
+
+      // Example
+      if (result.success) {
+        console.log("Upload success from " + this);
+      }
+
+    }
+  </script>
+
+=== Using the ajax-upload event
+
+  <%= ajax_upload_control add_file_picture_path(@picture), id: "myupload" %>
+
+  <script type="text/javascript">
+    $("#myupload").on("ajax-upload", function (event, result) {
+      // Your callback code here.
+
+      // Example
+      if (result.success) {
+        console.log("Upload success from " + this);
+      }
+    });
+  </script>
+
+
+== Making your own control template (TO-DO)
+
+* special classes
+* data-attributes
+* file progress template
+
+== How drag and drop works (TO-DO)
